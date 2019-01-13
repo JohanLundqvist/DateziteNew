@@ -1,0 +1,84 @@
+﻿@model datezite.ViewModels.EditYourProfileViewModel
+@using datezite.Models
+@{
+    ViewBag.Title = "EditYourProfile";
+    Layout = "~/Views/Shared/_SignedInLayout.cshtml";
+}
+
+<h2></h2>
+<div class="container-fluid">
+
+
+    <div class="row" style="padding-left: 300px;">
+
+        @using (Html.BeginForm("Update", "Profiles"))
+        {
+            //<div class="row">
+            <div class="col">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Förnamn)
+                    @Html.TextBoxFor(m => m.Förnamn, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Sysselsättning)
+                    @Html.TextBoxFor(m => m.Sysselsättning, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Kön)
+                    @Html.DropDownListFor(m => m.Kön, new SelectList(Enum.GetValues(typeof(ApplicationUser.Gender))), " ", new { @class = "form-control" })
+                </div>
+
+            </div>
+
+            <div class="col">
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Efternamn)
+                    @Html.TextBoxFor(m => m.Efternamn, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Ålder)
+                    @Html.TextBoxFor(m => m.Ålder, new { @class = "form-control" })
+
+                </div>
+
+            </div>
+            // </div>
+
+            <button type="submit" class="btn btn-primary btn-primary">Spara</button>
+        }
+        
+        <div class="form-group">
+            @Html.LabelFor(m => m.Interests)
+            @Html.DropDownListFor(m => m.Interests, new SelectList(Model.Interests, "InterestID", "Name"), " ", new { @class = "form-control" })
+            @*@Html.DropDownList("Intressen", ViewBag.intresseLista as SelectList, "Please select", new { @class = "form-control" })*@
+            
+
+            @using (Html.BeginForm("ChangeProfilePicture", "Profiles", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+
+                @Html.LabelFor(m => m.UserPhoto)
+
+
+            <div class = "align-content-lg-start">
+
+                <input type="file" name="UserPhoto" id="fileUpload" accept=".png,.jpg,.jpeg,.gif,.tif" , new {@class="form-control" } />
+            </div>
+
+                <div class="align-content-lg-start">
+                    <button type="submit" class="btn btn-primary btn-sm">Byt</button>
+                </div>
+
+
+            }
+        </div>
+    </div>
+
+
+        </div>
+
+

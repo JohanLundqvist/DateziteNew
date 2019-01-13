@@ -1,0 +1,148 @@
+﻿@using Microsoft.AspNet.Identity
+@using datezite.Models
+@model datezite.Models.ApplicationUser
+
+
+@{
+    ViewBag.Title = "YourProfile";
+    Layout = "~/Views/Shared/_SignedInLayout.cshtml";
+}
+
+
+
+<div class="row" style="padding-top: 30px">
+    <div class="col">
+        <h3>Vänner</h3>
+        <div class="list-group">
+             @foreach (var user in Model.ListOfFriends)
+                {
+                 var userId = user.Id;
+                    <a href="/Profiles/OtherProfile/@userId" class="list-group-item list-group-item-action">
+                        @user.Förnamn @user.Efternamn
+                    </a>
+                }
+        </div>
+        <div class="" id="senasteBes">
+
+        </div>
+
+    </div>
+    
+    <div class="col-6">
+
+        <div class="card mb-3">
+            <h3 class="card-header">@Html.DisplayFor(m => m.Förnamn) @Html.DisplayFor(m => m.Efternamn) </h3>
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(m => m.Kön), @Html.DisplayFor(m => m.Ålder)</h5>
+            </div>
+
+            <img src="@Url.Action("UserPhotos", "Profiles")" style="width:250px;height:250px; background: #FFFFFF;
+                margin: auto;
+                -moz-border-radius: 60px;
+                border-radius: 100px;
+                padding: 6px;
+                box-shadow: 0px 0px 20px #888;" />
+
+            <div class="card-body">
+                <p>@Html.DisplayFor(m => m.Sysselsättning)</p>
+                <p>@Html.DisplayFor(m => m.Intressen)</p>
+                <a href="User/" class="card-link" style="float:right">@Html.ActionLink("Redigera Profil", "EditYourProfile")</a>
+            </div>
+            <div class="card-footer text-muted">
+                Senast inloggad: 2 days ago
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="form-group">
+            <h3>Vägg</h3>
+            <textarea class="form-control" id="entryCont" rows="3" style="margin-top: 0px; margin-bottom: 0px; height: 103px;" placeholder="Din text här.." ></textarea>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 20px" id="send">Publicera</button>
+        <div id="inlägg">
+             
+                    
+                    @foreach (var entry in Model.Inlägg.Reverse())
+                    {
+                        var getAuthor = new GetApplicationUser();
+                        var author = getAuthor.GerUserById(entry.AuthorId);
+
+
+                        <div class="card border-light mb-3" style="max-width: 20rem; ">
+                            <div class="card-header"><a href="@Url.Action("OtherProfile", "Profiles", new { id = entry.AuthorId })">@author.Förnamn @author.Efternamn</a><p style="float:right">#<a id="msgId" >@entry.Id</a></p></div>
+                            <div class="card-body">
+
+                                <p class="card-text" id="cont">@entry.Content</p>
+                                <button data-id="@entry.Id" type="button" class="btn btn-primary btn-sm btn-del" style="float:right">Radera Inlägg</button>
+                            </div>
+                        
+                        </div>
+
+                    }
+                
+        </div>
+    </div>
+
+
+</div>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+
+    $('#inlägg').on('click', '.btn-del[data-id]', function () {
+
+        //Denna funktion gör att det går att ta bort inlägg från väggen och radera dem ur databasen.
+        
+        var entry = {
+            Id: $(this).attr('data-id'),
+            Content: $('cont').val()
+        };
+
+        console.log(entry.Content);
+
+        $.ajax({
+            type: 'DELETE',
+            data: JSON.stringify(entry),
+            url: '@Url.Action("DeleteFromDb", "EntryApi", new { httproute = "" })',
+            contentType: 'application/json',
+            dataType: 'JSON',
+            success: function (data) {
+                location.reload();
+            }
+
+        });
+
+
+    });
+
+    //Denna funktion sparar det skrivna inlägget i databasen.
+    $('#send').on('click', function () {
+
+        var repId = "@Model.Id";
+        var authId = "@HttpContext.Current.User.Identity.GetUserId()";
+        var cont = $('#entryCont').val();
+        var objEntry = {
+            Content: cont,
+            AuthorId: authId,
+            RecipientId: repId
+        };
+        var entry = JSON.stringify(objEntry);
+
+        $.ajax({
+            type: 'POST',
+            data: entry,
+            dataType: 'JSON',
+            contentType: 'application/json',
+            url: '@Url.Action("Post", "EntryApi", new { httproute = "" } )',
+            success: function (data) {
+                $('#entryCont').val('');
+                location.reload();
+
+            }
+        });
+
+
+    });
+
+</script>

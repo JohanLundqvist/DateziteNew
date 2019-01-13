@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "OtherProfile";
+    Layout = "~/Views/Shared/_SignedInLayout.cshtml";
+
+}
+@using Microsoft.AspNet.Identity;
+@using datezite.Models
+@model datezite.Models.ApplicationUser
+
+<div class="row" style="padding-top: 30px">
+    <div class="col">
+        <h3>Vänner</h3>
+
+        <table>
+            @*@foreach (var user in Model.Friends)
+                {*@
+            <tr>
+                @*@user.Firstname @user.Lastname;*@
+            </tr>
+
+
+
+            @*}*@
+        </table>
+
+    </div>
+    <div class="col-6">
+
+        <div class="card mb-3">
+            <h3 class="card-header">@Html.DisplayFor(m => m.Förnamn) @Html.DisplayFor(m => m.Efternamn)</h3>
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(m => m.Kön), @Html.DisplayFor(m => m.Ålder)</h5>
+
+            </div>
+            <img src="@Url.Action("OtherUsersPhoto", "Profiles", new { Id = Model.Id} )" style="width:250px;height:250px; background: #FFFFFF;
+                margin: auto;
+                -moz-border-radius: 60px;
+                border-radius: 100px;
+                padding: 6px;
+                box-shadow: 0px 0px 20px #888;" />
+            <div class="card-body">
+                <p>@Html.DisplayFor(m => m.Sysselsättning)</p>
+                <p>@Html.DisplayFor(m => m.Intressen)</p>
+            </div>
+
+            <div class="card-body">
+                <a href="#" class="card-link">Passar vi ihop?</a>
+                <a href="@Url.Action("AddFriend", "Profiles", new { Id = Model.Id })" class="card-link" style="float:right">Skicka vänförfrågan</a>
+            </div>
+            <div class="card-footer text-muted">
+                Senast inloggad: 2 days ago
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <h3>Vägg</h3>
+            <textarea class="form-control" id="entryCont" rows="3" style="margin-top: 0px; margin-bottom: 0px; height: 103px;" placeholder="Din text här.."></textarea>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 20px" id="send">Publicera</button>
+        <div id="inlägg">
+            @foreach (var entry in Model.Inlägg.Reverse())
+            {
+                var getAuthor = new GetApplicationUser();
+                var author = getAuthor.GerUserById(entry.AuthorId);
+
+                    <div class="card border-light mb-3" style="max-width: 20rem; ">
+                        <div class="card-header"><a href="@Url.Action("OtherProfile", "Profiles", new { id = entry.AuthorId })" class="card-link">@author.Förnamn @author.Efternamn</a></div>
+                        <div class="card-body">
+
+                            <p class="card-text">@entry.Content</p>
+                        </div>
+                    </div>
+            }
+        </div>
+    </div>
+
+
+</div>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+    $('#send').on('click', function () {
+
+        var repId = "@Model.Id";
+        var authId = "@HttpContext.Current.User.Identity.GetUserId()";
+        var cont = $('#entryCont').val();
+        var objEntry = {
+            Content: cont,
+            AuthorId: authId,
+            RecipientId: repId
+        }
+        var entry = JSON.stringify(objEntry);
+
+        $.ajax({
+            type: 'post',
+            data: entry,
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            url: '@Url.Action("Post", "EntryApi", new { httproute = "" })',
+            success: function (data) {
+                $('entryCont').val('');
+                location.reload();
+
+            }
+        });
+
+
+    });
+    
+</script>
