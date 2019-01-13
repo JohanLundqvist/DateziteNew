@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-
-namespace datezite.Models
+﻿namespace datezite.Models
 {
     public class Friends
     {
-
-        public String FriendId { get; set; }
-
-        public String UserId { get; set; }
-
-        
-}
+        public string FriendId { get; set; }
+        public string UserId { get; set; }
+    }
 }

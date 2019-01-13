@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace datezite.Models
 {
@@ -18,7 +18,7 @@ namespace datezite.Models
             Kvinna,
             Annat
         }
-        
+
         public string Användarnamn { get; set; }
         public string Kön { get; set; }
         public string Förnamn { get; set; }
@@ -26,7 +26,6 @@ namespace datezite.Models
         public int Ålder { get; set; }
         public string Lösenord { get; set; }
         public string Sysselsättning { get; set; }
-  //      public string Intressen { get; set; }
         public bool IsFriend = false;
         public ICollection<ApplicationUser> Friends { get; set; }
         public ICollection<Entry> Inlägg = new List<Entry>();
@@ -35,11 +34,11 @@ namespace datezite.Models
         public byte[] UserPhoto { get; set; }
         public ICollection<ApplicationUser> ListOfFriends { get; set; }
         public ICollection<ApplicationUser> FriendRequests { get; set; }
-        
+
 
         public ApplicationUser()
         {
-            this.Intressen = new HashSet<Interests>();
+            Intressen = new HashSet<Interests>();
 
         }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -66,7 +65,6 @@ namespace datezite.Models
 
         public static ApplicationDbContext Create()
         {
-            Database.SetInitializer<ApplicationDbContext>(new MockInitializer());
             return new ApplicationDbContext();
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -18,7 +18,6 @@ namespace datezite.Controllers
     {
         GetApplicationUser fetchUser = new GetApplicationUser();
         private ApplicationDbContext _context;
-        //  private InterestDBContext db = new InterestDBContext();
 
             
         public ProfilesController()
@@ -98,6 +97,7 @@ namespace datezite.Controllers
         {
             return View();
         }
+
         public ActionResult YourProfile(ApplicationUser model)
         {
             var user = fetchUser.GetUserByName(User.Identity.Name);
@@ -143,7 +143,6 @@ namespace datezite.Controllers
             model.Efternamn = user.Efternamn;
             model.Ålder = user.Ålder;
             model.Kön = user.Kön;
-            //model.Intressen = user.Intressen;
             model.Sysselsättning = user.Sysselsättning;
             model.UserName = user.UserName;
             foreach(var entry in _context.Entries)
@@ -158,16 +157,11 @@ namespace datezite.Controllers
             return View(model);
         }
 
-        public ApplicationUser GetOtherUser(String Id)
-        {
-            var appUser = _context.Users.Single(x => x.Id == Id);
-
-            return appUser;
-        }
+ 
 
         public FileContentResult UserPhotos()
         {
-                String userId = User.Identity.GetUserId();
+                string userId = User.Identity.GetUserId();
                 var LoggedInUser = fetchUser.GetUserByName(User.Identity.Name);
                 if (LoggedInUser.UserPhoto == null)
                 {
@@ -188,9 +182,9 @@ namespace datezite.Controllers
                 return new FileContentResult(userImage.UserPhoto, "image/jpeg");
         }
 
-        public FileContentResult OtherUsersPhoto(String Id)
+        public FileContentResult OtherUsersPhoto(string Id)
         {  
-                String userId = Id;
+                string userId = Id;
                 var OtherUser = GetOtherUser(userId);
                 if (OtherUser.UserPhoto == null)
                 {
@@ -205,10 +199,18 @@ namespace datezite.Controllers
                     return File(imageData, "image/png");
                 }
 
+
                 var bdUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
                 var userImage = bdUsers.Users.Where(u => u.Id == userId).FirstOrDefault();
 
                 return new FileContentResult(userImage.UserPhoto, "image/jpeg");            
+        }
+
+        public ApplicationUser GetOtherUser(string Id)
+        {
+            var appUser = _context.Users.Single(x => x.Id == Id);
+
+            return appUser;
         }
 
         public ActionResult SearchView(SearchResults model, String searchName) {

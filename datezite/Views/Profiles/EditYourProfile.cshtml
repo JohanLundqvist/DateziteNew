@@ -1,8 +1,10 @@
 ﻿@model datezite.ViewModels.EditYourProfileViewModel
 @using datezite.Models
 @{
-    ViewBag.Title = "EditYourProfile";
-    Layout = "~/Views/Shared/_SignedInLayout.cshtml";
+                /**/
+
+                ViewBag.Title = "EditYourProfile";
+                Layout = "~/Views/Shared/_SignedInLayout.cshtml";
 }
 
 <h2></h2>
@@ -46,39 +48,27 @@
                 </div>
 
             </div>
-            // </div>
-
             <button type="submit" class="btn btn-primary btn-primary">Spara</button>
         }
-        
+
         <div class="form-group">
-            @Html.LabelFor(m => m.Interests)
-            @Html.DropDownListFor(m => m.Interests, new SelectList(Model.Interests, "InterestID", "Name"), " ", new { @class = "form-control" })
-            @*@Html.DropDownList("Intressen", ViewBag.intresseLista as SelectList, "Please select", new { @class = "form-control" })*@
-            
+            @*@Html.LabelFor(m => m.Interests)
+            @Html.DropDownListFor(m => m.Interests, new SelectList(Model.Interests, "InterestID", "Name"), " ", new { @class = "form-control" })*@
 
             @using (Html.BeginForm("ChangeProfilePicture", "Profiles", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-
-
                 @Html.LabelFor(m => m.UserPhoto)
 
-
-            <div class = "align-content-lg-start">
-
-                <input type="file" name="UserPhoto" id="fileUpload" accept=".png,.jpg,.jpeg,.gif,.tif" , new {@class="form-control" } />
-            </div>
+                <div class="align-content-lg-start">
+                    <input type="file" name="UserPhoto" id="fileUpload" accept=".png,.jpg,.jpeg,.gif,.tif" , new {@class="form-control" } />
+                </div>
 
                 <div class="align-content-lg-start">
                     <button type="submit" class="btn btn-primary btn-sm">Byt</button>
                 </div>
-
-
             }
         </div>
     </div>
-
-
-        </div>
+</div>
 
 

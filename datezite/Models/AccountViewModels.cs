@@ -68,7 +68,7 @@ namespace datezite.Models
     {
         [Required]
         [Display(Name = "Kön")]
-        public Gender Kön {get; set;}
+        public Gender Kön { get; set; }
 
         [Required]
         [EmailAddress]
@@ -86,22 +86,22 @@ namespace datezite.Models
         [Compare("Password", ErrorMessage = "Lösenorden matchar ej.")]
         public string ConfirmPassword { get; set; }
 
-        
+
         [Required]
         [Display(Name = "Förnamn")]
-        public string Förnamn {get; set;}
+        public string Förnamn { get; set; }
 
         [Required]
         [Display(Name = "Efternamn")]
-        public string Efternamn {get;set;}
+        public string Efternamn { get; set; }
 
         [Required]
         [Display(Name = "Ålder")]
-        public int Ålder {get;set;}
+        public int Ålder { get; set; }
 
         [Required]
         [Display(Name = "Sysselsättning")]
-        public string Sysselsättning {get;set;}
+        public string Sysselsättning { get; set; }
 
         [Display(Name = "UserPhoto")]
         public byte[] UserPhoto { get; set; }

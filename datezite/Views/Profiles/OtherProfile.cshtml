@@ -8,22 +8,7 @@
 @model datezite.Models.ApplicationUser
 
 <div class="row" style="padding-top: 30px">
-    <div class="col">
-        <h3>Vänner</h3>
 
-        <table>
-            @*@foreach (var user in Model.Friends)
-                {*@
-            <tr>
-                @*@user.Firstname @user.Lastname;*@
-            </tr>
-
-
-
-            @*}*@
-        </table>
-
-    </div>
     <div class="col-6">
 
         <div class="card mb-3">
@@ -63,7 +48,7 @@
             @foreach (var entry in Model.Inlägg.Reverse())
             {
                 var getAuthor = new GetApplicationUser();
-                var author = getAuthor.GerUserById(entry.AuthorId);
+                var author = getAuthor.GetUserById(entry.AuthorId);
 
                     <div class="card border-light mb-3" style="max-width: 20rem; ">
                         <div class="card-header"><a href="@Url.Action("OtherProfile", "Profiles", new { id = entry.AuthorId })" class="card-link">@author.Förnamn @author.Efternamn</a></div>

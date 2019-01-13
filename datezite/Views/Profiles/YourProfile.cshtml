@@ -4,30 +4,28 @@
 
 
 @{
+
     ViewBag.Title = "YourProfile";
     Layout = "~/Views/Shared/_SignedInLayout.cshtml";
 }
-
-
 
 <div class="row" style="padding-top: 30px">
     <div class="col">
         <h3>Vänner</h3>
         <div class="list-group">
-             @foreach (var user in Model.ListOfFriends)
-                {
-                 var userId = user.Id;
-                    <a href="/Profiles/OtherProfile/@userId" class="list-group-item list-group-item-action">
-                        @user.Förnamn @user.Efternamn
-                    </a>
-                }
+            @foreach (var user in Model.ListOfFriends)
+            {
+                var userId = user.Id;
+                <a href="/Profiles/OtherProfile/@userId" class="list-group-item list-group-item-action">
+                    @user.Förnamn @user.Efternamn
+                </a>
+            }
         </div>
         <div class="" id="senasteBes">
 
         </div>
-
     </div>
-    
+
     <div class="col-6">
 
         <div class="card mb-3">
@@ -57,31 +55,29 @@
     <div class="col">
         <div class="form-group">
             <h3>Vägg</h3>
-            <textarea class="form-control" id="entryCont" rows="3" style="margin-top: 0px; margin-bottom: 0px; height: 103px;" placeholder="Din text här.." ></textarea>
+            <textarea class="form-control" id="entryCont" rows="3" style="margin-top: 0px; margin-bottom: 0px; height: 103px;" placeholder="Din text här.."></textarea>
         </div>
 
         <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 20px" id="send">Publicera</button>
         <div id="inlägg">
-             
-                    
-                    @foreach (var entry in Model.Inlägg.Reverse())
-                    {
-                        var getAuthor = new GetApplicationUser();
-                        var author = getAuthor.GerUserById(entry.AuthorId);
+            @foreach (var entry in Model.Inlägg.Reverse())
+            {
+                var getAuthor = new GetApplicationUser();
+                var author = getAuthor.GetUserById(entry.AuthorId);
 
 
-                        <div class="card border-light mb-3" style="max-width: 20rem; ">
-                            <div class="card-header"><a href="@Url.Action("OtherProfile", "Profiles", new { id = entry.AuthorId })">@author.Förnamn @author.Efternamn</a><p style="float:right">#<a id="msgId" >@entry.Id</a></p></div>
-                            <div class="card-body">
+                <div class="card border-light mb-3" style="max-width: 20rem; ">
+                    <div class="card-header"><a href="@Url.Action("OtherProfile", "Profiles", new { id = entry.AuthorId })">@author.Förnamn @author.Efternamn</a><p style="float:right">#<a id="msgId">@entry.Id</a></p></div>
+                    <div class="card-body">
 
-                                <p class="card-text" id="cont">@entry.Content</p>
-                                <button data-id="@entry.Id" type="button" class="btn btn-primary btn-sm btn-del" style="float:right">Radera Inlägg</button>
-                            </div>
-                        
-                        </div>
+                        <p class="card-text" id="cont">@entry.Content</p>
+                        <button data-id="@entry.Id" type="button" class="btn btn-primary btn-sm btn-del" style="float:right">Radera Inlägg</button>
+                    </div>
 
-                    }
-                
+                </div>
+
+            }
+
         </div>
     </div>
 
@@ -93,7 +89,7 @@
     $('#inlägg').on('click', '.btn-del[data-id]', function () {
 
         //Denna funktion gör att det går att ta bort inlägg från väggen och radera dem ur databasen.
-        
+
         var entry = {
             Id: $(this).attr('data-id'),
             Content: $('cont').val()

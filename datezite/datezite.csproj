@@ -182,8 +182,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EntriesController.cs" />
     <Compile Include="Controllers\EntryApiController.cs" />
-    <Compile Include="Controllers\HeaderAnonymousController.cs" />
-    <Compile Include="Controllers\HeaderSignedInController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
@@ -302,8 +300,6 @@
     <Compile Include="Models\Interests.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\DatingDbContext.cs" />
-    <Compile Include="Models\MockInitializer.cs" />
     <Compile Include="Models\PendingFriendRequests.cs" />
     <Compile Include="Models\Profiles.cs" />
     <Compile Include="Models\SearchResults.cs" />
@@ -319,6 +315,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\noImg.jpg" />
     <Content Include="Images\user_red_klippt.png" />
     <Content Include="Images\user_white_dot.png" />
     <Content Include="Images\user_white_klippt.png" />
@@ -368,8 +365,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -398,7 +393,6 @@
     <Content Include="Views\Profiles\OtherProfile.cshtml" />
     <Content Include="Views\Profiles\PotentialMatches.cshtml" />
     <Content Include="Views\Profiles\MyMatches.cshtml" />
-    <Content Include="Views\Entry\EntryViewPartial.cshtml" />
     <Content Include="Views\Profiles\SearchView.cshtml" />
     <Content Include="Views\Profiles\FriendRequests.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
@@ -413,8 +407,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\HeaderAnonymous\" />
-    <Folder Include="Views\HeaderSignedIn\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>

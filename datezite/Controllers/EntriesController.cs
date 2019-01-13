@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using datezite.Models;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using datezite.Models;
 
 namespace datezite.Controllers
 {
@@ -21,7 +17,6 @@ namespace datezite.Controllers
         {
             return db.Entries;
         }
-
         // GET: api/Entries/5
         [ResponseType(typeof(Entry))]
         public IHttpActionResult GetEntry(int id)
@@ -34,7 +29,6 @@ namespace datezite.Controllers
 
             return Ok(entry);
         }
-
         // PUT: api/Entries/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutEntry(int id, Entry entry)

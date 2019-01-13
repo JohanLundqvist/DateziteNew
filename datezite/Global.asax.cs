@@ -20,8 +20,7 @@ namespace datezite
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Database.SetInitializer(new MockInitializer());
-            Database.SetInitializer<ApplicationDbContext>(new MockInitializer());
+ 
             
 
 

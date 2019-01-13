@@ -1,6 +1,4 @@
-﻿@using datezite.Models
-@model datezite.Models.PendingFriendRequests
-
+﻿@model datezite.Models.PendingFriendRequests
 @{
     ViewBag.Title = "FriendRequests";
     Layout = "~/Views/Shared/_SignedInLayout.cshtml";
@@ -12,11 +10,11 @@
         @foreach (var friend in Model.FriendRequests)
         {
             var friendId = friend.Id;
-        <tr>
-            <th scope="col"><a href="/Profiles/OtherProfile/@friendId"> @friend.Förnamn @friend.Efternamn</a></th>
-            <th scope="col"> <button type="button" value="Create" onclick="location.href='@Url.Action("AcceptFriend", "Profiles", new { Id = friendId })'" class="btn btn-primary btn-sm">Lägg till</button></th>
-            <th scope="col"> <button type="button" value="Create" onclick="location.href='@Url.Action("IgnoreFriend", "Profiles", new { Id = friendId })'" class="btn btn-primary btn-sm">Ta bort</button></th>
-        </tr>
+            <tr>
+                <th scope="col"><a href="/Profiles/OtherProfile/@friendId"> @friend.Förnamn @friend.Efternamn</a></th>
+                <th scope="col"> <button type="button" value="Create" onclick="location.href='@Url.Action("AcceptFriend", "Profiles", new { Id = friendId })'" class="btn btn-primary btn-sm">Lägg till</button></th>
+                <th scope="col"> <button type="button" value="Create" onclick="location.href='@Url.Action("IgnoreFriend", "Profiles", new { Id = friendId })'" class="btn btn-primary btn-sm">Ta bort</button></th>
+            </tr>
         }
     </thead>
 </table>

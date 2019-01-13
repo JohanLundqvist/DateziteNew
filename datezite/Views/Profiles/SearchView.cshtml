@@ -2,8 +2,10 @@
 @model datezite.Models.SearchResults
 
 @{
-    ViewBag.Title = "SearchView";
-    Layout = "~/Views/Shared/_SignedInLayout.cshtml";
+                /**/
+
+                ViewBag.Title = "SearchView";
+                Layout = "~/Views/Shared/_SignedInLayout.cshtml";
 }
 
 <h2>Resultat</h2>
@@ -12,11 +14,11 @@
         @foreach (var userHit in Model.Results)
         {
             var hitId = userHit.Id;
-        <tr>
-            <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.Förnamn</a>  </th>
-            <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.Efternamn</a></th>
-            <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.UserName</a></th>
-        </tr>
+            <tr>
+                <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.Förnamn</a>  </th>
+                <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.Efternamn</a></th>
+                <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.UserName</a></th>
+            </tr>
         }
     </thead>
 </table>

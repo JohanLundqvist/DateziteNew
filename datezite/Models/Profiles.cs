@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
+﻿
 namespace datezite.Models
 {
     public class Profiles
     {
+        //Enbart för att skapa Profile mappen i views.
     }
 }

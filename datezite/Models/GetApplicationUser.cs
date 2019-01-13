@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Microsoft.AspNet.Identity;
-
+﻿using System.Linq;
 
 namespace datezite.Models
 {
@@ -15,8 +10,6 @@ namespace datezite.Models
         {
             _context = new ApplicationDbContext();
         }
-
-        
 
         public ApplicationUser GetUserByName(string name)
         {
@@ -30,20 +23,15 @@ namespace datezite.Models
                 }
             }
             return appUser;
-
-
         }
 
-        public ApplicationUser GerUserById(string id)
+        public ApplicationUser GetUserById(string id)
         {
             var appUser = _context.Users.Single(u => u.Id == id);
 
             return appUser;
 
-        }
-
-        
-
+        } 
 
     }
 }

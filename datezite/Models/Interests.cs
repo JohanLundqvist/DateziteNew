@@ -9,17 +9,13 @@ namespace datezite.Models
 {
     public class Interests
     {   
-        
-            
-        
+
         public Interests()
         {
-            this.Användare = new HashSet<ApplicationUser>();
-           
+            this.Användare = new HashSet<ApplicationUser>(); 
         }
         [Key]
         public int InterestID { get; set; }
-
         public virtual ICollection<ApplicationUser> Användare { get; set; }
         public string Name { get; set; }
     }

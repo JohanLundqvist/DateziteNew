@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
-@using datezite.Models
-@model datezite.Models.IndexViewModel
+﻿@model datezite.Models.IndexViewModel
 @{
     ViewBag.Title = "Home Page";
 }
@@ -20,7 +18,7 @@
                 <h5 class="card-title">@Html.DisplayFor(m => item.Kön), @Html.DisplayFor(m => item.Ålder)</h5>
             </div>
 
-            <img src="@Url.Action("UserPhotos", "Profiles")" style="width:250px;height:250px; background: #FFFFFF;
+            <img src="~/Images/noImg.jpg" style="width:250px;height:250px; background: #FFFFFF;
                 margin: auto;
                 -moz-border-radius: 60px;
                 border-radius: 100px;
@@ -29,68 +27,14 @@
 
             <div class="card-body">
                 <p>@Html.DisplayFor(m => item.Sysselsättning)</p>
-                
+
                 <a href="/Profiles/OtherProfile/@item.Id" class="card-link" style="float:right">Besök Min profil!</a>
 
             </div>
+
         </div>
     }
-    @*<div class="card mb-3 mx-1 col-sm">
-                    <h3 class="card-header">@Html.DisplayFor(model2 => model2.Förnamn) @Html.DisplayFor(model2 => model2.Efternamn) </h3>
-                    <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(model2 => model2.Kön), @Html.DisplayFor(model2 => model2.Ålder)</h5>
-                    </div>
-                    <img sr@using Microsoft.AspNet.Identity
-        @using datezite.Models
-        @model datezite.Models.ApplicationUser
-        @{
-            ViewBag.Title = "Home Page";
-        }
+</div>
 
-        <div class="jumbotron">
-            <h1 class="display-3">LTP Dating</h1>
-            <p class="lead">Sveriges hetaste datingsida</p>
-            <hr class="my-4">
 
-        </div>
-        <div class="row">
-            @foreach (var item in Model.ExempelProfiler)
-            {
-                <div class="card mb-3 mx-1 col-sm">
-                    <h3 class="card-header">@Html.DisplayFor(m => item.Förnamn) @Html.DisplayFor(m => item.Efternamn) </h3>
-                    <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(m => item.Kön), @Html.DisplayFor(m => item.Ålder)</h5>
-                    </div>
 
-                    <img src="@Url.Action("UserPhotos", "Profiles")" style="width:250px;height:250px; background: #FFFFFF;
-                        margin: auto;
-                        -moz-border-radius: 60px;
-                        border-radius: 100px;
-                        padding: 6px;
-                        box-shadow: 0px 0px 20px #888;" />
-
-                    <div class="card-body">
-                        <p>@Html.DisplayFor(m => item.Sysselsättning)</p>
-                        <p>@Html.DisplayFor(m => item.Intressen)</p>
-                        <a href="/Profiles/OtherProfile/@item.Id" class="card-link" style="float:right">Besök Min profil!</a>
-
-                    </div>
-                </div>
-            }
-            @*<div class="card mb-3 mx-1 col-sm">
-                    <h3 class="card-header">@Html.DisplayFor(model2 => model2.Förnamn) @Html.DisplayFor(model2 => model2.Efternamn) </h3>
-                    <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(model2 => model2.Kön), @Html.DisplayFor(model2 => model2.Ålder)</h5>
-                    </div>
-                    <img src="@Url.Action("UserPhotos", "Profiles")" style="width:250px;height:250px; background: #FFFFFF;
-                            margin: auto;
-                            -moz-border-radius: 60px;
-                            border-radius: 100px;
-                            padding: 6px;
-                            box-shadow: 0px 0px 20px #888;" />
-                    <div class="card-body">
-                        <p>@Html.DisplayFor(model2 => model2.Sysselsättning)</p>
-                        <p>@Html.DisplayFor(model2 => model2.Intressen)</p>
-                    </div>
-                </div>*@
-        
