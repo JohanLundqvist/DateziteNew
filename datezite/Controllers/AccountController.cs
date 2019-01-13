@@ -10,7 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using datezite.Models;
 using System.IO;
-//hej
+
 namespace datezite.Controllers
 {
     [Authorize]
@@ -410,7 +410,7 @@ namespace datezite.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return View("Index", "Home");
         }
 
         //

@@ -9,9 +9,11 @@ using datezite.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
+
 namespace datezite.Controllers
 {
-    
+
+    [Authorize]
     public class ProfilesController : Controller
     {
         GetApplicationUser fetchUser = new GetApplicationUser();

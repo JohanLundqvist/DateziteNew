@@ -33,8 +33,9 @@ namespace datezite.Models
         public virtual ICollection<Interests> Intressen { get; set; }
         [Display(Name = "Profilbild")]
         public byte[] UserPhoto { get; set; }
-        public List<ApplicationUser> ListOfFriends { get; set; }
-        public List<ApplicationUser> FriendRequests { get; set; }
+        public ICollection<ApplicationUser> ListOfFriends { get; set; }
+        public ICollection<ApplicationUser> FriendRequests { get; set; }
+        
 
         public ApplicationUser()
         {
