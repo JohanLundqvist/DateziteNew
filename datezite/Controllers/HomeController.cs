@@ -27,8 +27,8 @@ namespace datezite.Controllers
         {
             var ListofExamples = new List<ApplicationUser>();
             model.ExampleProfiles = ListofExamples;
-            var user = _context.Users.Single(u => u.UserName == "johan@mail.com");
-            var user2 = _context.Users.Single(u => u.UserName == "peter@mail.com");
+            var user = _context.Users.Single(u => u.UserName == "testing@hotmail.com");
+            var user2 = _context.Users.Single(u => u.UserName == "hejsvejs@hotmail.com");
 
             
             
