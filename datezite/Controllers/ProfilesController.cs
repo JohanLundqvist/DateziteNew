@@ -163,7 +163,7 @@ namespace datezite.Controllers
         {
                 string userId = User.Identity.GetUserId();
                 var LoggedInUser = fetchUser.GetUserByName(User.Identity.Name);
-                if (LoggedInUser.UserPhoto == null)
+                if (LoggedInUser.UserPhoto.Length == 0)
                 {
                     string fileName = HttpContext.Server.MapPath(@"~/Images/noImg.jpg");
                     byte[] imageData = null;
