@@ -292,6 +292,10 @@
     <Compile Include="Migrations\201901131757485_t1.Designer.cs">
       <DependentUpon>201901131757485_t1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901132108257_deleteLösenochAnvändarNamn.cs" />
+    <Compile Include="Migrations\201901132108257_deleteLösenochAnvändarNamn.Designer.cs">
+      <DependentUpon>201901132108257_deleteLösenochAnvändarNamn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Friends.cs" />
@@ -495,6 +499,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901131757485_t1.resx">
       <DependentUpon>201901131757485_t1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901132108257_deleteLösenochAnvändarNamn.resx">
+      <DependentUpon>201901132108257_deleteLösenochAnvändarNamn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
