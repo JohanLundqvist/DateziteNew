@@ -186,7 +186,7 @@ namespace datezite.Controllers
         {  
                 string userId = Id;
                 var OtherUser = GetOtherUser(userId);
-                if (OtherUser.UserPhoto == null)
+                if (OtherUser.UserPhoto.Length == 0)
                 {
                     string fileName = HttpContext.Server.MapPath(@"~/Images/noImg.jpg");
                     byte[] imageData = null;
