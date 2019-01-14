@@ -8,7 +8,7 @@ namespace datezite.Controllers
 {
     public class HomeController : Controller
     {
-        GetApplicationUser fetchUser = new GetApplicationUser();
+        
         private ApplicationDbContext _context;
 
         public HomeController()

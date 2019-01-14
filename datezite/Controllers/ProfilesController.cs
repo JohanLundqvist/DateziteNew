@@ -15,7 +15,6 @@ namespace datezite.Controllers
     [Authorize]
     public class ProfilesController : Controller
     {
-        GetApplicationUser fetchUser = new GetApplicationUser();
         private ApplicationDbContext _context;
 
             
@@ -24,29 +23,41 @@ namespace datezite.Controllers
             _context = new ApplicationDbContext();
         }
 
-        public ActionResult Update(EditYourProfileViewModel LoggedInUser)
+        public ApplicationUser GetUserByName(string name)
         {
-            
+            var appUser = _context.Users.Single(u => u.UserName == name);
 
-            var UserToChange = fetchUser.GetUserByName(User.Identity.Name);
+            foreach (var entry in _context.Entries)
+            {
+                if (entry.RecipientId == appUser.Id)
+                {
+                    appUser.Inlägg.Add(entry);
+                }
+            }
+            return appUser;
+        }
+
+        public ActionResult Update(EditYourProfileViewModel LoggedInUser)
+        {            
+            var UserToChange = GetUserByName(User.Identity.Name);
 
             LoggedInUser.CurrentUser.UserName = UserToChange.UserName;
 
             var user = _context.Users.SingleOrDefault(u => u.UserName == UserToChange.UserName);
 
-            user.Förnamn = LoggedInUser.CurrentUser.Förnamn;
-            user.Efternamn = LoggedInUser.CurrentUser.Efternamn;
+            user.Förnamn = LoggedInUser.CurrentUser.Förnamn.Substring(0,1).ToUpper() + LoggedInUser.CurrentUser.Förnamn.Substring(1).ToLower();
+            user.Efternamn = LoggedInUser.CurrentUser.Efternamn.Substring(0, 1).ToUpper() + LoggedInUser.CurrentUser.Efternamn.Substring(1).ToLower();
             user.Sysselsättning = LoggedInUser.CurrentUser.Sysselsättning;
             user.Kön = LoggedInUser.CurrentUser.Kön;
             user.Ålder = LoggedInUser.CurrentUser.Ålder;
-       
+            
             _context.SaveChanges();
             return RedirectToAction("YourProfile");
         }
 
         public ActionResult ChangeProfilePicture([Bind(Exclude = "UserPhoto")]ApplicationUser LoggedInUser) {
 
-            var UserToChange = fetchUser.GetUserByName(User.Identity.Name);
+            var UserToChange = GetUserByName(User.Identity.Name);
             LoggedInUser.UserName = UserToChange.UserName;
             var user = _context.Users.SingleOrDefault(u => u.UserName == UserToChange.UserName);
 
@@ -70,7 +81,7 @@ namespace datezite.Controllers
         public ActionResult EditYourProfile(EditYourProfileViewModel model)
         {
 
-            var user = fetchUser.GetUserByName(User.Identity.Name);
+            var user = GetUserByName(User.Identity.Name);
             var intressen = _context.Intressen.ToList();
             model.CurrentUser = new ApplicationUser();
 
@@ -102,7 +113,7 @@ namespace datezite.Controllers
         {
             model.Requests = new List<ApplicationUser>();
             var allFriendRequests = _context.Friendrequests.ToList();
-            var user = fetchUser.GetUserByName(User.Identity.Name);
+            var user = GetUserByName(User.Identity.Name);
 
             foreach (var u in allFriendRequests)
             {
@@ -115,38 +126,11 @@ namespace datezite.Controllers
             return View(model);
         }
 
-        //public ActionResult YourProfile(ApplicationUser model)
-        //{
-        //    var user = fetchUser.GetUserByName(User.Identity.Name);
-        //    var allFriends = _context.Friends.ToList();
-        //    model.Förnamn = user.Förnamn;
-        //    model.Efternamn = user.Efternamn;
-        //    model.Ålder = user.Ålder;
-        //    model.Kön = user.Kön;
-        //    model.Id = user.Id;
-        //    model.Sysselsättning = user.Sysselsättning;
-        //    model.UserPhoto = user.UserPhoto;
-        //    model.Inlägg = user.Inlägg;
-        //    model.ListOfFriends = new List<ApplicationUser>();
-            
-        //    foreach (var f in allFriends)
-        //    {
-        //        if (f.UserId == user.Id)
-        //        {
-        //            model.ListOfFriends.Add(GetOtherUser(f.FriendId));
-        //        }
-        //        if (f.FriendId == user.Id)
-        //        {
-        //            model.ListOfFriends.Add(GetOtherUser(f.UserId));
-        //        }
-        //    }
-        //    return View(model);
-        //}
         public ActionResult PotentialMatches(PotentialMatchesViewModel model)
         {
             model.Requests = new List<ApplicationUser>();
             var allFriendRequests = _context.Friendrequests.ToList();
-            var user = fetchUser.GetUserByName(User.Identity.Name);
+            var user = GetUserByName(User.Identity.Name);
 
             foreach (var u in allFriendRequests)
             {
@@ -165,7 +149,7 @@ namespace datezite.Controllers
             model.CurrentUser = new ApplicationUser();
 
             model.CurrentUser.UserName = otherUser.UserName;
-            var you = fetchUser.GetUserByName(User.Identity.Name);
+            var you = GetUserByName(User.Identity.Name);
             var user = _context.Users.Single(u => u.UserName == model.CurrentUser.UserName);
 
             model.CurrentUser.Id = user.Id;
@@ -201,7 +185,7 @@ namespace datezite.Controllers
 
         public ActionResult YourProfile(ProfileViewModel model)
         {
-            var user = fetchUser.GetUserByName(User.Identity.Name);
+            var user = GetUserByName(User.Identity.Name);
             var allFriends = _context.Friends.ToList();
             model.CurrentUser = user;
             model.CurrentUser.Id = user.Id;
@@ -257,7 +241,7 @@ namespace datezite.Controllers
         public FileContentResult UserPhotos()
         {
                 string userId = User.Identity.GetUserId();
-                var LoggedInUser = fetchUser.GetUserByName(User.Identity.Name);
+                var LoggedInUser = GetUserByName(User.Identity.Name);
                 if (LoggedInUser.UserPhoto.Length == 0)
                 {
                     string fileName = HttpContext.Server.MapPath(@"~/Images/noImg.jpg");
@@ -311,7 +295,7 @@ namespace datezite.Controllers
         public ActionResult SearchView(SearchResultsViewModel model, String searchName) {
             var result = new List<ApplicationUser>();
             var allUsers = _context.Users.ToList();
-            var user = fetchUser.GetUserByName(User.Identity.Name);
+            var user = GetUserByName(User.Identity.Name);
 
             model.Requests = new List<ApplicationUser>();
             var allFriendRequests = _context.Friendrequests.ToList();
@@ -343,7 +327,7 @@ namespace datezite.Controllers
         public ActionResult AddFriend(ApplicationUser model)
         {
 
-            var user = fetchUser.GetUserByName(User.Identity.Name);
+            var user = GetUserByName(User.Identity.Name);
             var UserToBefriend = GetOtherUser(model.Id);
             UserToBefriend.Id = model.Id;
 
@@ -374,7 +358,7 @@ namespace datezite.Controllers
 
             model.Requests = new List<ApplicationUser>();
 
-            var user = fetchUser.GetUserByName(User.Identity.Name);
+            var user = GetUserByName(User.Identity.Name);
 
             var allFriendRequests = _context.Friendrequests.ToList();
 
@@ -390,7 +374,7 @@ namespace datezite.Controllers
 
         public ActionResult AcceptFriend(String Id) {
 
-            var user = fetchUser.GetUserByName(User.Identity.Name);
+            var user = GetUserByName(User.Identity.Name);
             
 
             _context.Friends.Add(new Friends
@@ -410,7 +394,7 @@ namespace datezite.Controllers
 
         public ActionResult IgnoreFriend(String Id){
 
-            var user = fetchUser.GetUserByName(User.Identity.Name);
+            var user = GetUserByName(User.Identity.Name);
 
             var friendrequest = _context.Friendrequests.Single(request => request.UserId == user.Id && request.FriendId == Id);
             var allRequests = _context.Friendrequests.Count();

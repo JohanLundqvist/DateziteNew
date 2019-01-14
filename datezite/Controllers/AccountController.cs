@@ -162,9 +162,14 @@ namespace datezite.Controllers
                         imageData = binary.ReadBytes(poImgFile.ContentLength);
                     }
             }
-
-            
-                var user = new ApplicationUser { UserName = model.Email , Email = model.Email, Kön = model.Kön.ToString(), Förnamn = model.Förnamn, Efternamn = model.Efternamn, Ålder = model.Ålder, Sysselsättning = model.Sysselsättning };
+                var user = new ApplicationUser
+                { UserName = model.Email,
+                  Email = model.Email,
+                  Kön = model.Kön.ToString(),
+                  Förnamn = model.Förnamn.Substring(0, 1).ToUpper() + model.Förnamn.Substring(1).ToLower(),
+                  Efternamn = model.Efternamn.Substring(0, 1).ToUpper() + model.Efternamn.Substring(1).ToLower(),
+                  Ålder = model.Ålder,
+                  Sysselsättning = model.Sysselsättning };
 
                 user.UserPhoto = imageData;
 

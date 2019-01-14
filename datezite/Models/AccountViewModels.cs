@@ -88,10 +88,12 @@ namespace datezite.Models
 
 
         [Required]
+        [RegularExpression("[a-öA-Ö]+", ErrorMessage = "Förnamn måste börja med stor bokstav och innehålla endast bokstäver från A-Ö")]
         [Display(Name = "Förnamn")]
         public string Förnamn { get; set; }
 
         [Required]
+        [RegularExpression("[a-öA-Ö]+", ErrorMessage = "Efternamn måste börja med stor bokstav och innehålla endast bokstäver från A-Ö")]
         [Display(Name = "Efternamn")]
         public string Efternamn { get; set; }
 
@@ -100,6 +102,7 @@ namespace datezite.Models
         public int Ålder { get; set; }
 
         [Required]
+        [RegularExpression("[a-öA-Ö]+", ErrorMessage = "Sysselsättning måste börja med stor bokstav och innehålla endast bokstäver från A-Ö")]
         [Display(Name = "Sysselsättning")]
         public string Sysselsättning { get; set; }
 

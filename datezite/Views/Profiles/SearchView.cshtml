@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@using datezite.Models
+@using datezite.Controllers
 @model datezite.Models.SearchResultsViewModel
 
 
@@ -15,25 +15,22 @@
     <thead>
         @foreach (var userHit in Model.Results)
         {
-            var getYourProfile = new GetApplicationUser();
-            var you = getYourProfile.GetUserById(userHit.Id);
-            var hitId = userHit.Id;
-            if (HttpContext.Current.User.Identity.GetUserId() == you.Id)
+
+            var currentUser = ((ProfilesController)this.ViewContext.Controller).GetUserByName(User.Identity.Name);
+            if (userHit.Id == currentUser.Id)
             {
 
-                <tr>
-                    <th scope="col"><a href="/Profiles/YourProfile">@userHit.Förnamn</a>  </th>
-                    <th scope="col"><a href="/Profiles/YourProfile">@userHit.Efternamn</a></th>
-                    <th scope="col"><a href="/Profiles/YourProfile">@userHit.UserName</a></th>
-                </tr>
+        <tr>
+            <a href="/Profiles/YourProfile/" class="list-group-item list-group-item-action">
+                @userHit.Förnamn @userHit.Efternamn <p style="float:right">@userHit.UserName</p>
+            </a>
+        </tr>
             }
             else
             {
-                <tr>
-                    <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.Förnamn</a>  </th>
-                    <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.Efternamn</a></th>
-                    <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.UserName</a></th>
-                </tr>
+            <a href="/Profiles/OtherProfile/@userHit.Id" class="list-group-item list-group-item-action">
+                @userHit.Förnamn @userHit.Efternamn <p style="float:right">@userHit.UserName</p>
+            </a>
             }
         }
     </thead>

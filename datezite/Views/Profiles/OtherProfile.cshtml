@@ -4,7 +4,7 @@
 
 }
 @using Microsoft.AspNet.Identity;
-@using datezite.Models
+@using datezite.Controllers
 @model datezite.Models.OtherProfileViewModel
 
 <div class="row" style="padding-top: 30px">
@@ -17,12 +17,13 @@
                 <h5 class="card-title">@Html.DisplayFor(m => m.CurrentUser.Kön), @Html.DisplayFor(m => m.CurrentUser.Ålder)</h5>
 
             </div>
-            <img src="@Url.Action("OtherUsersPhoto", "Profiles", new { Id = Model.CurrentUser.Id} )" style="width:250px;height:250px; background: #FFFFFF;
+            <img src="@Url.Action("OtherUsersPhoto", "Profiles", new { Id = Model.CurrentUser.Id} )" style="width:250px;height:300px; background: #FFFFFF;
                 margin: auto;
                 -moz-border-radius: 60px;
                 border-radius: 100px;
                 padding: 6px;
-                box-shadow: 0px 0px 20px #888;" />
+                box-shadow: 0px 0px 20px #888;
+                object-fit:cover" />
             <div class="card-body">
                 <p>@Html.DisplayFor(m => m.CurrentUser.Sysselsättning)</p>
                 <p>@Html.DisplayFor(m => m.CurrentUser.Intressen)</p>
@@ -48,10 +49,10 @@
             @foreach (var entry in Model.CurrentUser.Inlägg.Reverse())
             {
 
-                var getAuthor = new GetApplicationUser();
-                var author = getAuthor.GetUserById(entry.AuthorId);
+                var currentUser = ((ProfilesController)this.ViewContext.Controller).GetUserByName(User.Identity.Name);
+                var author = ((ProfilesController)this.ViewContext.Controller).GetOtherUser(entry.AuthorId);
 
-                if (HttpContext.Current.User.Identity.GetUserId() == author.Id)
+                if (currentUser.Id == author.Id)
                 {
 
                     <div class="card border-light mb-3" style="max-width: 20rem; ">

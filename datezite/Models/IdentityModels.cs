@@ -20,9 +20,17 @@ namespace datezite.Models
         }
 
         public string Kön { get; set; }
+        [Required(ErrorMessage = "Fältet Förnamn får inte vara tomt")]
+        [RegularExpression("[a-öA-Ö]+", ErrorMessage = "Förnamn måste börja med stor bokstav och innehålla endast bokstäver från A-Ö")]
         public string Förnamn { get; set; }
+        [Required(ErrorMessage = "Fältet Efternamn får inte vara tomt")]
+        [RegularExpression("[a-öA-Ö]+", ErrorMessage = "Efternamn måste börja med stor bokstav och innehålla endast bokstäver från A-Ö")]
         public string Efternamn { get; set; }
+        [Required(ErrorMessage = "Fältet ålder får inte vara tomt")]
+        [Range(1, 100, ErrorMessage = "Ange en ålder mellan 1 och 100")]
         public int Ålder { get; set; }
+        [Required(ErrorMessage = "Fältet sysselsättning får inte vara tomt")]
+        [RegularExpression("[a-öA-Ö]+", ErrorMessage = "Sysselsättning måste börja med stor bokstav och innehålla endast bokstäver från A-Ö")]
         public string Sysselsättning { get; set; }
         public bool IsFriend = false;
         public ICollection<ApplicationUser> Friends { get; set; }
