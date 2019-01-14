@@ -306,7 +306,6 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PendingFriendRequests.cs" />
     <Compile Include="Models\Profiles.cs" />
-    <Compile Include="Models\SearchResults.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\EditYourProfileViewModel.cs" />

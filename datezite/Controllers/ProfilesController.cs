@@ -142,7 +142,7 @@ namespace datezite.Controllers
             model.CurrentUser = new ApplicationUser();
 
             model.CurrentUser.UserName = otherUser.UserName;
-
+            var you = fetchUser.GetUserByName(User.Identity.Name);
             var user = _context.Users.Single(u => u.UserName == model.CurrentUser.UserName);
 
             model.CurrentUser.Id = user.Id;
@@ -165,7 +165,7 @@ namespace datezite.Controllers
 
             foreach (var u in allFriendRequests)
             {
-                if (user.Id == u.FriendId)
+                if (you.Id == u.FriendId)
                 {
                     model.Requests.Add(GetOtherUser(u.UserId));
                 }
@@ -288,18 +288,7 @@ namespace datezite.Controllers
         public ActionResult SearchView(SearchResultsViewModel model, String searchName) {
             var result = new List<ApplicationUser>();
             var allUsers = _context.Users.ToList();
-
             var user = fetchUser.GetUserByName(User.Identity.Name);
-            model.CurrentUser = user;
-            model.CurrentUser.Id = user.Id;
-            model.CurrentUser.Förnamn = user.Förnamn;
-            model.CurrentUser.Efternamn = user.Efternamn;
-            model.CurrentUser.Ålder = user.Ålder;
-            model.CurrentUser.Kön = user.Kön;
-            model.CurrentUser.Id = user.Id;
-            model.CurrentUser.Sysselsättning = user.Sysselsättning;
-            model.CurrentUser.UserPhoto = user.UserPhoto;
-            model.CurrentUser.Inlägg = user.Inlägg;
 
             model.Requests = new List<ApplicationUser>();
             var allFriendRequests = _context.Friendrequests.ToList();
@@ -311,14 +300,19 @@ namespace datezite.Controllers
                     model.Requests.Add(GetOtherUser(u.UserId));
                 }
             }
-
-
-            if (!String.IsNullOrEmpty(searchName))
+            var search = searchName.Substring(0, 1).ToUpper() + searchName.Substring(1).ToLower();
+            if (!string.IsNullOrEmpty(searchName) && searchName.Contains(" "))
             {
-                result = allUsers.Where(u => u.Förnamn == searchName || u.Efternamn == searchName || u.Förnamn + " " + u.Efternamn == searchName).ToList();
+                string[] searchArray = searchName.Split(' ');
+                var searchByFullName = searchArray[0].Substring(0, 1).ToUpper() + searchArray[0].Substring(1).ToLower() + " " + searchArray[1].Substring(0, 1).ToUpper() + searchArray[1].Substring(1).ToLower();
+                result = allUsers.Where(u => u.Förnamn + " " + u.Efternamn == searchByFullName).ToList();
             }
-            model.Results = result;
-
+                else
+                {
+                    result = allUsers.Where(u => u.Förnamn == search || u.Efternamn == search).ToList();
+                }
+                model.Results = result;
+            
             return View(model);
         }
         public ActionResult AddFriend(ApplicationUser model)
