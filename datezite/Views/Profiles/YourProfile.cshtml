@@ -105,57 +105,59 @@
 
     $('#inlägg').on('click', '.btn-del[data-id]', function () {
 
-        //Denna funktion gör att det går att ta bort inlägg från väggen och radera dem ur databasen.
+    //Denna funktion gör att det går att ta bort inlägg från väggen och radera dem ur databasen.
 
-        var entry = {
-            Id: $(this).attr('data-id'),
-            Content: $('cont').val()
-        };
+    var entry = {
+        Id: $(this).attr('data-id'),
+        Content: $('cont').val()
+    };
 
-        console.log(entry.Content);
+    console.log(entry.Content);
 
-        $.ajax({
-            type: 'DELETE',
-            data: JSON.stringify(entry),
-            url: '@Url.Action("DeleteFromDb", "EntryApi", new { httproute = "" })',
-            contentType: 'application/json',
-            dataType: 'JSON',
-            success: function (data) {
-                location.reload();
-            }
-
-        });
-
+    $.ajax({
+        type: 'DELETE',
+        data: JSON.stringify(entry),
+        url: '@Url.Action("DeleteFromDb", "EntryApi", new { httproute = "" })',
+        contentType: 'application/json',
+        dataType: 'JSON',
+        success: function (data) {
+            location.reload();
+        }
 
     });
 
-    //Denna funktion sparar det skrivna inlägget i databasen.
-    $('#send').on('click', function () {
 
-        var repId = "@Model.CurrentUser.Id";
-        var authId = "@HttpContext.Current.User.Identity.GetUserId()";
-        var cont = $('#entryCont').val();
-        var objEntry = {
-            Content: cont,
-            AuthorId: authId,
-            RecipientId: repId
-        };
-        var entry = JSON.stringify(objEntry);
+});
 
-        $.ajax({
-            type: 'POST',
-            data: entry,
-            dataType: 'JSON',
-            contentType: 'application/json',
-            url: '@Url.Action("Post", "EntryApi", new { httproute = "" } )',
-            success: function (data) {
-                $('#entryCont').val('');
-                location.reload();
+//Denna funktion sparar det skrivna inlägget i databasen.
+$('#send').on('click', function () {
 
-            }
-        });
+    var repId = "@Model.CurrentUser.Id";
+    var authId = "@HttpContext.Current.User.Identity.GetUserId()";
+    var cont = $('#entryCont').val();
+    var objEntry = {
+        Content: cont,
+        AuthorId: authId,
+        RecipientId: repId
+    };
+    var entry = JSON.stringify(objEntry);
 
+    $.ajax({
+        type: 'POST',
+        data: entry,
+        dataType: 'JSON',
+        contentType: 'application/json',
+        url: '@Url.Action("Post", "EntryApi", new { httproute = "" } )',
+        success: function (data) {
+            $('#entryCont').val('');
+            location.reload();
 
+        }
     });
 
+
+});
 </script>
+
+
+

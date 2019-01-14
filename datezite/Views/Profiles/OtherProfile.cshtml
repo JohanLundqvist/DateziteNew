@@ -80,32 +80,32 @@
 </div>
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
-    $('#send').on('click', function () {
+        // Denna metod gör att du kan skriva inlägg så de sparas i databasen och visas på profilen.
+$('#send').on('click', function () {
 
-        var repId = "@Model.CurrentUser.Id";
-        var authId = "@HttpContext.Current.User.Identity.GetUserId()";
-        var cont = $('#entryCont').val();
-        var objEntry = {
-            Content: cont,
-            AuthorId: authId,
-            RecipientId: repId
+    var repId = "@Model.CurrentUser.Id";
+    var authId = "@HttpContext.Current.User.Identity.GetUserId()";
+    var cont = $('#entryCont').val();
+    var objEntry = {
+        Content: cont,
+        AuthorId: authId,
+        RecipientId: repId
+    }
+    var entry = JSON.stringify(objEntry);
+
+    $.ajax({
+        type: 'post',
+        data: entry,
+        dataType: 'JSON',
+        contentType: 'application/json; charset=utf-8',
+        url: '@Url.Action("Post", "EntryApi", new { httproute = "" })',
+        success: function (data) {
+            $('entryCont').val('');
+            location.reload();
+
         }
-        var entry = JSON.stringify(objEntry);
-
-        $.ajax({
-            type: 'post',
-            data: entry,
-            dataType: 'JSON',
-            contentType: 'application/json; charset=utf-8',
-            url: '@Url.Action("Post", "EntryApi", new { httproute = "" })',
-            success: function (data) {
-                $('entryCont').val('');
-                location.reload();
-
-            }
-        });
-
-
     });
-    
+
+
+});
 </script>
