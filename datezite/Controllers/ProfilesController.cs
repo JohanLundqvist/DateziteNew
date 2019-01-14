@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using datezite.Models;
-using datezite.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -99,9 +98,21 @@ namespace datezite.Controllers
             _context.Dispose();
         }
 
-        public ActionResult MyMatches()
+        public ActionResult MyMatches(MyMatchesViewModel model)
         {
-            return View();
+            model.Requests = new List<ApplicationUser>();
+            var allFriendRequests = _context.Friendrequests.ToList();
+            var user = fetchUser.GetUserByName(User.Identity.Name);
+
+            foreach (var u in allFriendRequests)
+            {
+                if (user.Id == u.FriendId)
+                {
+                    model.Requests.Add(GetOtherUser(u.UserId));
+                }
+            }
+
+            return View(model);
         }
 
         //public ActionResult YourProfile(ApplicationUser model)
@@ -131,9 +142,21 @@ namespace datezite.Controllers
         //    }
         //    return View(model);
         //}
-        public ActionResult PotentialMatches()
+        public ActionResult PotentialMatches(PotentialMatchesViewModel model)
         {
-            return View();
+            model.Requests = new List<ApplicationUser>();
+            var allFriendRequests = _context.Friendrequests.ToList();
+            var user = fetchUser.GetUserByName(User.Identity.Name);
+
+            foreach (var u in allFriendRequests)
+            {
+                if (user.Id == u.FriendId)
+                {
+                    model.Requests.Add(GetOtherUser(u.UserId));
+                }
+            }
+
+            return View(model);
         }
 
         public ActionResult OtherProfile(OtherProfileViewModel model, String Id)
@@ -300,16 +323,18 @@ namespace datezite.Controllers
                     model.Requests.Add(GetOtherUser(u.UserId));
                 }
             }
-            var search = searchName.Substring(0, 1).ToUpper() + searchName.Substring(1).ToLower();
+            
             if (!string.IsNullOrEmpty(searchName) && searchName.Contains(" "))
             {
+
                 string[] searchArray = searchName.Split(' ');
                 var searchByFullName = searchArray[0].Substring(0, 1).ToUpper() + searchArray[0].Substring(1).ToLower() + " " + searchArray[1].Substring(0, 1).ToUpper() + searchArray[1].Substring(1).ToLower();
                 result = allUsers.Where(u => u.Förnamn + " " + u.Efternamn == searchByFullName).ToList();
             }
-                else
+                else if(!string.IsNullOrEmpty(searchName))
                 {
-                    result = allUsers.Where(u => u.Förnamn == search || u.Efternamn == search).ToList();
+                var search = searchName.Substring(0, 1).ToUpper() + searchName.Substring(1).ToLower();
+                result = allUsers.Where(u => u.Förnamn == search || u.Efternamn == search).ToList();
                 }
                 model.Results = result;
             

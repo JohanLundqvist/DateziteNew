@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace datezite.Controllers
 {
@@ -17,6 +18,10 @@ namespace datezite.Controllers
 
         public ActionResult Index(IndexViewModel model)
         {
+
+            model.Requests = new List<ApplicationUser>();
+
+            
             
             var ListofExamples = new List<ApplicationUser>();
             model.ExampleProfiles = ListofExamples;

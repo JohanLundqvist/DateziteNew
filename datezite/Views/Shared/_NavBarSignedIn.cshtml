@@ -9,13 +9,13 @@
         <ul class="navbar-nav mr-auto">
 
             <li class="nav-item ">
-                <a class="nav-link" @Html.ActionLink("Potentiella matchningar", "PotentialMatches") </a>
+                <a class="nav-link" href="@Url.Action("PotentialMatches", "Profiles" )">Potentiella Matchningar </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" @Html.ActionLink("Mina Matchningar", "MyMatches") </a>
+                <a class="nav-link" href="@Url.Action("MyMatches", "Profiles" )">Mina matchningar</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" @Html.ActionLink("Min profil", "YourProfile") </a>
+                <a class="nav-link" href="@Url.Action("YourProfile", "Profiles" )">Min Profil</a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="@Url.Action("LogOff", "Account")">Logga ut</a>
@@ -41,13 +41,14 @@
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
     $(document).ready(function () {
-        if (@Model.Requests.Count != 0) {
-            $('#noReqs').hide();
-            $('#friendReqs').show();
-        } else {
-            $('#friendReqs').hide();
-            $('#noReqs').show();
-        }
+    if (@Model.Requests.Count != 0) {
+    $('#noReqs').hide();
+    $('#friendReqs').show();
+} else {
+    $('#friendReqs').hide();
+    $('#noReqs').show();
+}
     });
+
 
 </script>
