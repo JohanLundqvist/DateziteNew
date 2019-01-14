@@ -1,5 +1,4 @@
-﻿
-namespace datezite.Models
+﻿namespace datezite.Models
 {
     public class Profiles
     {

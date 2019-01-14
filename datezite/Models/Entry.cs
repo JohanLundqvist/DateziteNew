@@ -8,7 +8,6 @@ namespace datezite.Models
 {
     public class Entry
     {
-        
         public int Id { get; set; }
         public string Content { get; set; }
         public string AuthorId { get; set; }

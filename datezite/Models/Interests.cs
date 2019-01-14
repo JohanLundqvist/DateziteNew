@@ -9,7 +9,6 @@ namespace datezite.Models
 {
     public class Interests
     {   
-
         public Interests()
         {
             this.Användare = new HashSet<ApplicationUser>(); 

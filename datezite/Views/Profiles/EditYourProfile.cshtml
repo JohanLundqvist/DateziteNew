@@ -15,7 +15,7 @@ ViewBag.Title = "EditYourProfile";
 
         @using (Html.BeginForm("Update", "Profiles"))
         {
-            //<div class="row">
+            
             <div class="col">
                 @Html.ValidationSummary("", new { @class = "text-danger" })
                 <div class="form-group">
@@ -24,8 +24,8 @@ ViewBag.Title = "EditYourProfile";
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.CurrentUser.Sysselsättning)
-                    @Html.TextBoxFor(m => m.CurrentUser.Sysselsättning, new { @class = "form-control" })
+                    @Html.LabelFor(m => m.CurrentUser.Efternamn)
+                    @Html.TextBoxFor(m => m.CurrentUser.Efternamn, new { @class = "form-control" })
                 </div>
 
                 <div class="form-group">
@@ -38,8 +38,8 @@ ViewBag.Title = "EditYourProfile";
             <div class="col">
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.CurrentUser.Efternamn)
-                    @Html.TextBoxFor(m => m.CurrentUser.Efternamn, new { @class = "form-control" })
+                    @Html.LabelFor(m => m.CurrentUser.Sysselsättning)
+                    @Html.TextBoxFor(m => m.CurrentUser.Sysselsättning, new { @class = "form-control" })
                 </div>
 
                 <div class="form-group">
