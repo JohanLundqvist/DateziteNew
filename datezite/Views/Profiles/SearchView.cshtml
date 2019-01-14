@@ -1,11 +1,12 @@
 ﻿@using datezite.Models
 @model datezite.Models.SearchResults
+@using Microsoft.AspNet.Identity;
 
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "SearchView";
-                Layout = "~/Views/Shared/_SignedInLayout.cshtml";
+    ViewBag.Title = "SearchView";
+    Layout = "~/Views/Shared/_SignedInLayout.cshtml";
 }
 
 <h2>Resultat</h2>
@@ -13,12 +14,26 @@
     <thead>
         @foreach (var userHit in Model.Results)
         {
+            var getYourProfile = new GetApplicationUser();
+            var you = getYourProfile.GetUserById(userHit.Id);
             var hitId = userHit.Id;
-            <tr>
-                <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.Förnamn</a>  </th>
-                <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.Efternamn</a></th>
-                <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.UserName</a></th>
-            </tr>
+            if (HttpContext.Current.User.Identity.GetUserId() == you.Id)
+            {
+
+                <tr>
+                    <th scope="col"><a href="/Profiles/YourProfile">@userHit.Förnamn</a>  </th>
+                    <th scope="col"><a href="/Profiles/YourProfile">@userHit.Efternamn</a></th>
+                    <th scope="col"><a href="/Profiles/YourProfile">@userHit.UserName</a></th>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.Förnamn</a>  </th>
+                    <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.Efternamn</a></th>
+                    <th scope="col"><a href="/Profiles/OtherProfile/@hitId">@userHit.UserName</a></th>
+                </tr>
+            }
         }
     </thead>
 </table>
