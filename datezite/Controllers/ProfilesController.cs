@@ -68,24 +68,30 @@ namespace datezite.Controllers
             return RedirectToAction("YourProfile");
         }
 
-        public ActionResult EditYourProfile(ApplicationUser username)
+        public ActionResult EditYourProfile(EditYourProfileViewModel model)
         {
 
-
-            username = fetchUser.GetUserByName(User.Identity.Name);
+            model.CurrentUser = fetchUser.GetUserByName(User.Identity.Name);
             var intressen = _context.Intressen.ToList();
 
-            var viewModel = new EditYourProfileViewModel
+            model.CurrentUser.Ålder = model.Ålder;
+            model.CurrentUser.Förnamn = model.Förnamn;
+            model.CurrentUser.Efternamn = model.Efternamn;
+            model.CurrentUser.Sysselsättning = model.Sysselsättning;
+            model.CurrentUser.Kön = model.Kön;
+
+            model.Requests = new List<ApplicationUser>();
+            var allFriendRequests = _context.Friendrequests.ToList();
+
+            foreach (var u in allFriendRequests)
             {
-                ApplicationUser = username,
-                Interests = intressen
-            };
-            viewModel.Ålder = username.Ålder;
-            viewModel.Förnamn = username.Förnamn;
-            viewModel.Efternamn = username.Efternamn;
-            viewModel.Sysselsättning = username.Sysselsättning;
-            viewModel.Kön = username.Kön;
-            return View(viewModel);
+                if (model.CurrentUser.Id == u.FriendId)
+                {
+                    model.Requests.Add(GetOtherUser(u.UserId));
+                }
+            }
+
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)
@@ -152,6 +158,7 @@ namespace datezite.Controllers
                     model.Inlägg.Add(entry);
                 }
             }
+
             
 
             return View(model);
@@ -194,8 +201,6 @@ namespace datezite.Controllers
                     model.WallEntrys.Add(entry);
                 }
             }
-
-            
 
             model.Requests = new List<ApplicationUser>();
             var allFriendRequests = _context.Friendrequests.ToList();

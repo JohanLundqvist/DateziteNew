@@ -16,9 +16,9 @@
             @foreach (var user in Model.Friends)
             {
                 var userId = user.Id;
-                <a href="/Profiles/OtherProfile/@userId" class="list-group-item list-group-item-action">
-                    @user.Förnamn @user.Efternamn
-                </a>
+                    <a href="/Profiles/YourProfile" class="list-group-item list-group-item-action">
+                        @user.Förnamn @user.Efternamn
+                    </a>
             }
         </div>
         <div class="" id="senasteBes">
