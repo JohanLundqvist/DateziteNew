@@ -353,7 +353,7 @@ namespace datezite.Controllers
 
         public ActionResult FriendRequests(PendingFriendRequests model) {
 
-            model.FriendRequests = new List<ApplicationUser>();
+            model.Requests = new List<ApplicationUser>();
 
             var user = fetchUser.GetUserByName(User.Identity.Name);
 
@@ -363,7 +363,7 @@ namespace datezite.Controllers
 
                 if (user.Id == u.FriendId) {
 
-                    model.FriendRequests.Add(GetOtherUser(u.UserId));
+                    model.Requests.Add(GetOtherUser(u.UserId));
                 }
             }
             return View(model);

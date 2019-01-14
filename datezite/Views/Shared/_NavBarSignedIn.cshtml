@@ -21,8 +21,14 @@
                 <a class="nav-link" href="@Url.Action("LogOff", "Account")">Logga ut</a>
             </li>
         </ul>
-        <img id="noReqs" src="~/Images/user_white_klippt.png" style="width:30px; height:30px; display:none" @Url.Action("YourProfile", "Profiles") />
-        <img id="friendReqs" src="~/Images/user_white_dot.png" style="width:35px; height:35px; display:none" @Url.Action("YourProfile", "Profiles") />
+        <div id="noReqs">
+            <img src="~/Images/user_white_klippt.png" style="width:30px; height:30px; display:block"/>
+        </div>
+        <div id="friendReqs">
+            <img src="~/Images/user_white_dot.png" style="width:32px; height:35px; display:block"/>
+        </div>
+        
+        
         @using (Html.BeginForm("SearchView", "Profiles", new { @class = "form-inline my-2 my-lg-0" }))
         {
             <p style="padding-left: 20px">
@@ -32,8 +38,9 @@
         }
     </div>
 </nav>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
-    $(document).ready(function {
+    $(document).ready(function () {
         if (@Model.Requests.Count != 0) {
             $('#noReqs').hide();
             $('#friendReqs').show();
