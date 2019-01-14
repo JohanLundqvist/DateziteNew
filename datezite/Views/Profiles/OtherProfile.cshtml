@@ -47,9 +47,23 @@
         <div id="inlägg">
             @foreach (var entry in Model.Inlägg.Reverse())
             {
+
                 var getAuthor = new GetApplicationUser();
                 var author = getAuthor.GetUserById(entry.AuthorId);
 
+                if (HttpContext.Current.User.Identity.GetUserId() == author.Id)
+                {
+
+                    <div class="card border-light mb-3" style="max-width: 20rem; ">
+                        <div class="card-header"><a href="@Url.Action("YourProfile", "Profiles", new { id = entry.AuthorId })" class="card-link">@author.Förnamn @author.Efternamn</a></div>
+                        <div class="card-body">
+
+                            <p class="card-text">@entry.Content</p>
+                        </div>
+                    </div>
+                }
+                else
+                {
                     <div class="card border-light mb-3" style="max-width: 20rem; ">
                         <div class="card-header"><a href="@Url.Action("OtherProfile", "Profiles", new { id = entry.AuthorId })" class="card-link">@author.Förnamn @author.Efternamn</a></div>
                         <div class="card-body">
@@ -57,6 +71,7 @@
                             <p class="card-text">@entry.Content</p>
                         </div>
                     </div>
+                }
             }
         </div>
     </div>

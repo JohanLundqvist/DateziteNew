@@ -98,33 +98,33 @@ namespace datezite.Controllers
             return View();
         }
 
-        public ActionResult YourProfile(ApplicationUser model)
-        {
-            var user = fetchUser.GetUserByName(User.Identity.Name);
-            var allFriends = _context.Friends.ToList();
-            model.Förnamn = user.Förnamn;
-            model.Efternamn = user.Efternamn;
-            model.Ålder = user.Ålder;
-            model.Kön = user.Kön;
-            model.Id = user.Id;
-            model.Sysselsättning = user.Sysselsättning;
-            model.UserPhoto = user.UserPhoto;
-            model.Inlägg = user.Inlägg;
-            model.ListOfFriends = new List<ApplicationUser>();
+        //public ActionResult YourProfile(ApplicationUser model)
+        //{
+        //    var user = fetchUser.GetUserByName(User.Identity.Name);
+        //    var allFriends = _context.Friends.ToList();
+        //    model.Förnamn = user.Förnamn;
+        //    model.Efternamn = user.Efternamn;
+        //    model.Ålder = user.Ålder;
+        //    model.Kön = user.Kön;
+        //    model.Id = user.Id;
+        //    model.Sysselsättning = user.Sysselsättning;
+        //    model.UserPhoto = user.UserPhoto;
+        //    model.Inlägg = user.Inlägg;
+        //    model.ListOfFriends = new List<ApplicationUser>();
             
-            foreach (var f in allFriends)
-            {
-                if (f.UserId == user.Id)
-                {
-                    model.ListOfFriends.Add(GetOtherUser(f.FriendId));
-                }
-                if (f.FriendId == user.Id)
-                {
-                    model.ListOfFriends.Add(GetOtherUser(f.UserId));
-                }
-            }
-            return View(model);
-        }
+        //    foreach (var f in allFriends)
+        //    {
+        //        if (f.UserId == user.Id)
+        //        {
+        //            model.ListOfFriends.Add(GetOtherUser(f.FriendId));
+        //        }
+        //        if (f.FriendId == user.Id)
+        //        {
+        //            model.ListOfFriends.Add(GetOtherUser(f.UserId));
+        //        }
+        //    }
+        //    return View(model);
+        //}
         public ActionResult PotentialMatches()
         {
             return View();
@@ -157,7 +157,62 @@ namespace datezite.Controllers
             return View(model);
         }
 
- 
+        public ActionResult YourProfile(ProfileViewModel model)
+        {
+            var user = fetchUser.GetUserByName(User.Identity.Name);
+            var allFriends = _context.Friends.ToList();
+            model.CurrentUser = user;
+            model.CurrentUser.Id = user.Id;
+            model.CurrentUser.Förnamn = user.Förnamn;
+            model.CurrentUser.Efternamn = user.Efternamn;
+            model.CurrentUser.Ålder = user.Ålder;
+            model.CurrentUser.Kön = user.Kön;
+            model.CurrentUser.Id = user.Id;
+            model.CurrentUser.Sysselsättning = user.Sysselsättning;
+            model.CurrentUser.UserPhoto = user.UserPhoto;
+            model.CurrentUser.Inlägg = user.Inlägg;
+            model.Friends = new List<ApplicationUser>();
+
+            foreach (var f in allFriends)
+            {
+                if (f.UserId == user.Id)
+                {
+                    model.Friends.Add(GetOtherUser(f.FriendId));
+                }
+                if (f.FriendId == user.Id)
+                {
+                    model.Friends.Add(GetOtherUser(f.UserId));
+                }
+            }
+
+            model.WallEntrys = new List<Entry>();
+            
+            foreach (var entry in _context.Entries)
+            {
+                if (entry.RecipientId == user.Id)
+                {
+                    model.WallEntrys.Add(entry);
+                }
+            }
+
+            
+
+            model.Requests = new List<ApplicationUser>();
+            var allFriendRequests = _context.Friendrequests.ToList();
+
+            foreach (var u in allFriendRequests)
+            {
+                if (user.Id == u.FriendId)
+                {
+                    model.Requests.Add(GetOtherUser(u.UserId));
+                }
+            }
+
+
+            return View(model);
+        }
+
+
 
         public FileContentResult UserPhotos()
         {
