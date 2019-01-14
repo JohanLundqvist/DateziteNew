@@ -5,32 +5,32 @@
 }
 @using Microsoft.AspNet.Identity;
 @using datezite.Models
-@model datezite.Models.ApplicationUser
+@model datezite.Models.OtherProfileViewModel
 
 <div class="row" style="padding-top: 30px">
 
     <div class="col-6">
 
         <div class="card mb-3">
-            <h3 class="card-header">@Html.DisplayFor(m => m.Förnamn) @Html.DisplayFor(m => m.Efternamn)</h3>
+            <h3 class="card-header">@Html.DisplayFor(m => m.CurrentUser.Förnamn) @Html.DisplayFor(m => m.CurrentUser.Efternamn)</h3>
             <div class="card-body">
-                <h5 class="card-title">@Html.DisplayFor(m => m.Kön), @Html.DisplayFor(m => m.Ålder)</h5>
+                <h5 class="card-title">@Html.DisplayFor(m => m.CurrentUser.Kön), @Html.DisplayFor(m => m.CurrentUser.Ålder)</h5>
 
             </div>
-            <img src="@Url.Action("OtherUsersPhoto", "Profiles", new { Id = Model.Id} )" style="width:250px;height:250px; background: #FFFFFF;
+            <img src="@Url.Action("OtherUsersPhoto", "Profiles", new { Id = Model.CurrentUser.Id} )" style="width:250px;height:250px; background: #FFFFFF;
                 margin: auto;
                 -moz-border-radius: 60px;
                 border-radius: 100px;
                 padding: 6px;
                 box-shadow: 0px 0px 20px #888;" />
             <div class="card-body">
-                <p>@Html.DisplayFor(m => m.Sysselsättning)</p>
-                <p>@Html.DisplayFor(m => m.Intressen)</p>
+                <p>@Html.DisplayFor(m => m.CurrentUser.Sysselsättning)</p>
+                <p>@Html.DisplayFor(m => m.CurrentUser.Intressen)</p>
             </div>
 
             <div class="card-body">
                 <a href="#" class="card-link">Passar vi ihop?</a>
-                <a href="@Url.Action("AddFriend", "Profiles", new { Id = Model.Id })" class="card-link" style="float:right">Skicka vänförfrågan</a>
+                <a href="@Url.Action("AddFriend", "Profiles", new { Id = Model.CurrentUser.Id })" class="card-link" style="float:right">Skicka vänförfrågan</a>
             </div>
             <div class="card-footer text-muted">
                 Senast inloggad: 2 days ago
@@ -45,7 +45,7 @@
 
         <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 20px" id="send">Publicera</button>
         <div id="inlägg">
-            @foreach (var entry in Model.Inlägg.Reverse())
+            @foreach (var entry in Model.CurrentUser.Inlägg.Reverse())
             {
 
                 var getAuthor = new GetApplicationUser();
@@ -82,7 +82,7 @@
 <script>
     $('#send').on('click', function () {
 
-        var repId = "@Model.Id";
+        var repId = "@Model.CurrentUser.Id";
         var authId = "@HttpContext.Current.User.Identity.GetUserId()";
         var cont = $('#entryCont').val();
         var objEntry = {

@@ -93,5 +93,13 @@ namespace datezite.Models
         public List<ApplicationUser> Requests { get; set; }
     }
 
+    public class OtherProfileViewModel
+    {
+        public ApplicationUser CurrentUser { get; set; }
+        public ICollection<Entry> WallEntrys { get; set; }
+        public ICollection<ApplicationUser> Friends { get; set; }
+        public List<ApplicationUser> Requests { get; set; }
+    }
+
 
 }

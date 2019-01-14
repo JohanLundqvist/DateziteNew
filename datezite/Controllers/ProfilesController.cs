@@ -25,21 +25,21 @@ namespace datezite.Controllers
             _context = new ApplicationDbContext();
         }
 
-        public ActionResult Update(ApplicationUser LoggedInUser)
+        public ActionResult Update(EditYourProfileViewModel LoggedInUser)
         {
             
 
             var UserToChange = fetchUser.GetUserByName(User.Identity.Name);
 
-            LoggedInUser.UserName = UserToChange.UserName;
+            LoggedInUser.CurrentUser.UserName = UserToChange.UserName;
 
             var user = _context.Users.SingleOrDefault(u => u.UserName == UserToChange.UserName);
 
-            user.Förnamn = LoggedInUser.Förnamn;
-            user.Efternamn = LoggedInUser.Efternamn;
-            user.Sysselsättning = LoggedInUser.Sysselsättning;
-            user.Kön = LoggedInUser.Kön;
-            user.Ålder = LoggedInUser.Ålder;
+            user.Förnamn = LoggedInUser.CurrentUser.Förnamn;
+            user.Efternamn = LoggedInUser.CurrentUser.Efternamn;
+            user.Sysselsättning = LoggedInUser.CurrentUser.Sysselsättning;
+            user.Kön = LoggedInUser.CurrentUser.Kön;
+            user.Ålder = LoggedInUser.CurrentUser.Ålder;
        
             _context.SaveChanges();
             return RedirectToAction("YourProfile");
@@ -71,14 +71,15 @@ namespace datezite.Controllers
         public ActionResult EditYourProfile(EditYourProfileViewModel model)
         {
 
-            model.CurrentUser = fetchUser.GetUserByName(User.Identity.Name);
+            var user = fetchUser.GetUserByName(User.Identity.Name);
             var intressen = _context.Intressen.ToList();
+            model.CurrentUser = new ApplicationUser();
 
-            model.CurrentUser.Ålder = model.Ålder;
-            model.CurrentUser.Förnamn = model.Förnamn;
-            model.CurrentUser.Efternamn = model.Efternamn;
-            model.CurrentUser.Sysselsättning = model.Sysselsättning;
-            model.CurrentUser.Kön = model.Kön;
+            model.CurrentUser.Ålder = user.Ålder;
+            model.CurrentUser.Förnamn = user.Förnamn;
+            model.CurrentUser.Efternamn = user.Efternamn;
+            model.CurrentUser.Sysselsättning = user.Sysselsättning;
+            model.CurrentUser.Kön = user.Kön;
 
             model.Requests = new List<ApplicationUser>();
             var allFriendRequests = _context.Friendrequests.ToList();
@@ -90,7 +91,6 @@ namespace datezite.Controllers
                     model.Requests.Add(GetOtherUser(u.UserId));
                 }
             }
-
             return View(model);
         }
 
@@ -136,30 +136,42 @@ namespace datezite.Controllers
             return View();
         }
 
-        public ActionResult OtherProfile(ApplicationUser model, String Id)
+        public ActionResult OtherProfile(OtherProfileViewModel model, String Id)
         {
             var otherUser = GetOtherUser(Id);
+            model.CurrentUser = new ApplicationUser();
 
-            model.UserName = otherUser.UserName;
+            model.CurrentUser.UserName = otherUser.UserName;
 
-            var user = _context.Users.Single(u => u.UserName == model.UserName);
+            var user = _context.Users.Single(u => u.UserName == model.CurrentUser.UserName);
 
-            model.Id = user.Id;
-            model.Förnamn = user.Förnamn;
-            model.Efternamn = user.Efternamn;
-            model.Ålder = user.Ålder;
-            model.Kön = user.Kön;
-            model.Sysselsättning = user.Sysselsättning;
-            model.UserName = user.UserName;
+            model.CurrentUser.Id = user.Id;
+            model.CurrentUser.Förnamn = user.Förnamn;
+            model.CurrentUser.Efternamn = user.Efternamn;
+            model.CurrentUser.Ålder = user.Ålder;
+            model.CurrentUser.Kön = user.Kön;
+            model.CurrentUser.Sysselsättning = user.Sysselsättning;
+            model.CurrentUser.UserName = user.UserName;
             foreach(var entry in _context.Entries)
             {
-                if (model.Id == entry.RecipientId)
+                if (model.CurrentUser.Id == entry.RecipientId)
                 {
-                    model.Inlägg.Add(entry);
+                    model.CurrentUser.Inlägg.Add(entry);
                 }
             }
 
-            
+            model.Requests = new List<ApplicationUser>();
+            var allFriendRequests = _context.Friendrequests.ToList();
+
+            foreach (var u in allFriendRequests)
+            {
+                if (user.Id == u.FriendId)
+                {
+                    model.Requests.Add(GetOtherUser(u.UserId));
+                }
+            }
+
+
 
             return View(model);
         }
