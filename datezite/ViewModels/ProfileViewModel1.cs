@@ -10,6 +10,8 @@ namespace datezite.ViewModels
     {
         public ApplicationUser CurrentUser = new ApplicationUser();
         public List<Entry> WallEntrys = new List<Entry>();
+        public List<Friends> Friends = new List<Friends>();
+        public List<PendingFriendRequests> Requests = new List<PendingFriendRequests>();
         
         
 
