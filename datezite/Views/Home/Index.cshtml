@@ -1,8 +1,14 @@
-﻿@model datezite.Models.IndexViewModel
+﻿@using Microsoft.AspNet.Identity
+@model datezite.Models.IndexViewModel
 @{
-    ViewBag.Title = "Home Page";
-}
 
+    if (HttpContext.Current.User.Identity.GetUserId() != null)
+    {
+        ViewBag.Title = "Home Page";
+        Layout = "~/Views/Shared/_SignedInLayout.cshtml";
+
+    }
+    }
 <div class="jumbotron">
     <h1 class="display-3">LTP Dating</h1>
     <p class="lead">Sveriges hetaste datingsida</p>

@@ -17,6 +17,7 @@ namespace datezite.Controllers
 
         public ActionResult Index(IndexViewModel model)
         {
+            
             var ListofExamples = new List<ApplicationUser>();
             model.ExampleProfiles = ListofExamples;
             var user = _context.Users.Single(u => u.UserName == "testing@hotmail.com");

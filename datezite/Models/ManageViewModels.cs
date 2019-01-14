@@ -13,6 +13,7 @@ namespace datezite.Models
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
         public IList<ApplicationUser> ExampleProfiles { get; set; }
+        public List<ApplicationUser> Requests { get; set; }
     }
 
     public class ManageLoginsViewModel
