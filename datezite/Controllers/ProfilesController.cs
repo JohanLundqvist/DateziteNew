@@ -285,9 +285,33 @@ namespace datezite.Controllers
             return appUser;
         }
 
-        public ActionResult SearchView(SearchResults model, String searchName) {
+        public ActionResult SearchView(SearchResultsViewModel model, String searchName) {
             var result = new List<ApplicationUser>();
             var allUsers = _context.Users.ToList();
+
+            var user = fetchUser.GetUserByName(User.Identity.Name);
+            model.CurrentUser = user;
+            model.CurrentUser.Id = user.Id;
+            model.CurrentUser.Förnamn = user.Förnamn;
+            model.CurrentUser.Efternamn = user.Efternamn;
+            model.CurrentUser.Ålder = user.Ålder;
+            model.CurrentUser.Kön = user.Kön;
+            model.CurrentUser.Id = user.Id;
+            model.CurrentUser.Sysselsättning = user.Sysselsättning;
+            model.CurrentUser.UserPhoto = user.UserPhoto;
+            model.CurrentUser.Inlägg = user.Inlägg;
+
+            model.Requests = new List<ApplicationUser>();
+            var allFriendRequests = _context.Friendrequests.ToList();
+
+            foreach (var u in allFriendRequests)
+            {
+                if (user.Id == u.FriendId)
+                {
+                    model.Requests.Add(GetOtherUser(u.UserId));
+                }
+            }
+
 
             if (!String.IsNullOrEmpty(searchName))
             {

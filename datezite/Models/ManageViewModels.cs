@@ -101,5 +101,12 @@ namespace datezite.Models
         public List<ApplicationUser> Requests { get; set; }
     }
 
+    public class SearchResultsViewModel
+    {
+        public ApplicationUser CurrentUser { get; set; }
+        public List<ApplicationUser> Requests { get; set; }
+        public List<ApplicationUser> Results { get; set; }
+    }
+
 
 }
