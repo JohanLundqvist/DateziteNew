@@ -186,7 +186,7 @@ namespace datezite.Controllers
         {  
                 string userId = Id;
                 var OtherUser = GetOtherUser(userId);
-                if (OtherUser.UserPhoto.Length == 0)
+                if (OtherUser.UserPhoto == null || OtherUser.UserPhoto.Length == 0)
                 {
                     string fileName = HttpContext.Server.MapPath(@"~/Images/noImg.jpg");
                     byte[] imageData = null;
@@ -233,6 +233,7 @@ namespace datezite.Controllers
             UserToBefriend.Id = model.Id;
 
             //Validering
+            var ThisIsYou = UserToBefriend.Id == user.Id;
             var AlreadyFriendsUserId = _context.Friends.Where(f => f.UserId == user.Id && f.FriendId == UserToBefriend.Id).Any();
             var AlreadyFriendsFriendId = _context.Friends.Where(f => f.UserId == UserToBefriend.Id && f.FriendId == user.Id).Any();
             var FriendreqAlreadySent = _context.Friendrequests.Where(f => f.UserId == user.Id && f.FriendId == UserToBefriend.Id).Any();
@@ -240,13 +241,15 @@ namespace datezite.Controllers
 
             if (AlreadyFriendsUserId == false && AlreadyFriendsFriendId == false) {
                 if (FriendreqAlreadySent == false && FriendreqAlreadyRecived == false) {
-                    _context.Friendrequests.Add(new PendingFriendRequests
-                    {
-                        FriendId = UserToBefriend.Id,
-                        UserId = user.Id
-                    });
+                    if (ThisIsYou == false) {
+                        _context.Friendrequests.Add(new PendingFriendRequests
+                        {
+                            FriendId = UserToBefriend.Id,
+                            UserId = user.Id
+                        });
 
-                    _context.SaveChanges();
+                        _context.SaveChanges();
+                    }
                 }
             }
             return RedirectToAction(model.Id, "Profiles/OtherProfile");
@@ -254,7 +257,7 @@ namespace datezite.Controllers
 
         public ActionResult FriendRequests(PendingFriendRequests model) {
 
-             model.FriendRequests = new List<ApplicationUser>();
+            model.FriendRequests = new List<ApplicationUser>();
 
             var user = fetchUser.GetUserByName(User.Identity.Name);
 
