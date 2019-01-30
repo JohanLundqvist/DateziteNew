@@ -396,7 +396,7 @@ namespace datezite.Controllers
 
             var user = GetUserByName(User.Identity.Name);
 
-            var friendrequest = _context.Friendrequests.Single(request => request.UserId == user.Id && request.FriendId == Id);
+            var friendrequest = _context.Friendrequests.Single(request => request.FriendId == user.Id && request.UserId == Id);
             var allRequests = _context.Friendrequests.Count();
 
             _context.Friendrequests.Remove(friendrequest);
